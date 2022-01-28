@@ -39,6 +39,11 @@ jobs:
        echo "${{ secrets.USER_KEY }}" > user.key
        echo "${{ secrets.SECRET_USERNAME_PASSWORD }}" > secret.txt
        echo "${{ secrets.TLS_KEY }}" > tls.key
+    - name: Connect VPN
+      run: sudo openvpn --config ".github/vpn/vitor.rodrigues_ssl_vpn_config.ovpn" --log "vpn.log" --daemon
+    - name: Wait for a VPN connection
+      timeout-minutes: 2
+      run: until ping -c1 191.234.162.219; do sleep 2; done
     - name: Checkmarx CxFlow Action
       uses: checkmarx-ts/checkmarx-cxflow-github-action@9975af7d6b957abec9ee9646effa3fb3b82c5314
       with:
@@ -55,3 +60,15 @@ jobs:
       uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: cx.sarif
+    - name: Kill VPN connection
+      if: always()
+      run: |
+       sudo chmod 777 vpn.log
+       sudo killall openvpn    
+
+    - name: Upload VPN logs
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+       name: VPN logs
+       path: vpn.log
