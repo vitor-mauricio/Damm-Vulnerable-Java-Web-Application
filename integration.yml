@@ -1,2 +1,0 @@
-- name: Checkmarx CxFlow Action
-  uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.4
