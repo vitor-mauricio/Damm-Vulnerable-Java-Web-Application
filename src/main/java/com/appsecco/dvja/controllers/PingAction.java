@@ -42,7 +42,7 @@ public class PingAction extends BaseController {
 
     private void doExecCommand() throws IOException {
         Runtime runtime = Runtime.getRuntime();
-        String[] command = { "/bin/bash", "-c", "ping -t 5 -c 5 " + getAddress() };
+        String[] command = { "/bin/bash", "-c", "ping -t 5 -c 5 " };
         Process process = runtime.exec(command);
 
         BufferedReader  stdinputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
