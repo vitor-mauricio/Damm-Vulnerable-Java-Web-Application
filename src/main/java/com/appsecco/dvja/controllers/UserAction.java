@@ -9,7 +9,7 @@ public class UserAction extends BaseController {
     private UserService userService;
     private User user;
     private String login;
-    private String password;
+    //private String password;
     private String passwordConfirmation;
     private String email;
     private int userId;
